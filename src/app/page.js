@@ -5,91 +5,67 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.js</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <div className={styles.content}>
+          <div className={styles.leftContent}>
+            <h2>Seamless Crypto Onramp</h2>
+            <p>
+              Get started with your Web3 journey by easily exchanging
+              traditional currencies like USD, EUR, or KES into popular
+              cryptocurrencies. Whether you’re using a credit card, bank
+              transfer, or mobile money, our secure platform has you covered.
+            </p>
+          </div>
+          <div className={styles.rightContent}>
+            <h2>Convert Fiat to Crypto Effortlessly</h2>
+            <form className={styles.form}>
+              <div className={styles.rightFormContent}>
+              <div className={styles.formGroup}>
+                <label htmlFor="crypto" className={styles.label}>Select Token:</label>
+                <select className={styles.select}  id="crypto" name="crypto" required>
+                  <option value="bitcoin">Bitcoin</option>
+                  <option value="ethereum">Ethereum</option>
+                  <option value="litecoin">Litecoin</option>
+                </select>
+              </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="email" className={styles.label}>Number of Tokens:</label>
+                  <input className={styles.input} type="number" id="email" name="email" required />
+                </div>
+              </div>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+              <div className={styles.rightFormContent}>
+              <div className={styles.formGroup}>
+              <div className={styles.formGroup}>
+                  <label htmlFor="email" className={styles.label}>Sender’s Phone Number:</label>
+                  <input className={styles.input} type="number" id="email" name="email" required />
+                </div>
+              </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="email" className={styles.label}>Amount to Send:</label>
+                  <input className={styles.input} type="number" id="email" name="email" required />
+                </div>
+              </div>
+              
+
+              <div className={styles.formGroup}>
+                <label htmlFor="phone" className={styles.label}>Paste Wallet Address:</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  placeholder="+1234567890"
+                  className={styles.input}
+                  required
+                />
+              </div>
+            
+              <button type="submit" className={styles.submitButton}>
+              Connect Wallet
+              </button>
+            </form>
+          </div>
         </div>
       </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
