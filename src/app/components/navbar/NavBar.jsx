@@ -1,99 +1,32 @@
-"use client";
-import React, { useState } from "react";
-import styles from "./navbar.module.css";
-import Image from "next/image";
+"use client"; // Add this at the top of the file
+
+import React from 'react';
+import styles from './navbar.module.css';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useAppContext } from '../../../providers/AppProvider';
 
 const NavBar = () => {
-  const [showItems, setshowItems] = useState(false);
-
-  const showMenuItems = () => {
-    setshowItems(!showItems);
-  };
+  const pathname = usePathname();
+  const { handleConnetWalletBtnClick, account } = useAppContext();
 
   return (
     <div className={styles.container}>
       <div className={styles.logo}>
-        <Image
-          src={"/Logo.png"}
-          alt="Kiboko_DAO_Logo"
-          className={styles.img}
-          fill
-        ></Image>
+        <img src="/Logo.png" alt="Kiboko_DAO_Logo" className={styles.img} />
       </div>
 
       <div className={styles.navOptionsMain}>
-        <p className={styles.active}>Onramp</p>
-        <p>Offramp</p>
+        <Link href="/onramp">
+          <p className={pathname === "/onramp" ? styles.active : ""}>Onramp</p>
+        </Link>
+        <Link href="/offramp">
+          <p className={pathname === "/offramp" ? styles.active : ""}>Offramp</p>
+        </Link>
 
-        <div className={styles.navOptions} onClick={showMenuItems}>
-          <span className={styles.navOptions_ArgentLogo}>
-            <Image
-              src={"/ArgentLogo.png"}
-              alt="ArgentLogo"
-              className={styles.ArgentLogo}
-              fill
-            ></Image>
-          </span>
-          <p>Wallet Connected</p>
-          <span className={styles.navOptions_arrow_drop_down}>
-            <Image
-              src={"/arrowdropdown.png"}
-              alt="arrow_drop_down"
-              className={styles.arrow_drop_down}
-              fill
-            ></Image>
-          </span>
-        </div>
-      </div>
-
-      <div className={`${styles.navbar_menuItems} ${showItems ? styles.display :'' }`}>
-        <ul className={styles.navbar_menuItems_content}>
-          <li className={styles.active_navbar_menuItems}>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-        </ul>
+        <button onClick={handleConnetWalletBtnClick} className={styles.connectButton}>
+          {account ? 'Wallet Connected' : 'Connect Wallet'}
+        </button>
       </div>
     </div>
   );
