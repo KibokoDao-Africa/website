@@ -2,12 +2,33 @@
 import React, { useState } from "react";
 import styles from "./navbar.module.css";
 import Image from "next/image";
+import { useAppContext } from "../../providers/AppProvider";
+import { usePathname, useRouter } from "next/navigation";
 
 const NavBar = () => {
-  const [showItems, setshowItems] = useState(false);
+  const [showItems, setshowItems] = useState(true);
+  const path = usePathname();
+  const route = useRouter();
+
+  console.log(path);
+
+  const { handleConnetWalletBtnClick, address } = useAppContext();
+
+  const connectFromNav = () => {
+    handleConnetWalletBtnClick();
+    setshowItems(!showItems);
+  };
 
   const showMenuItems = () => {
     setshowItems(!showItems);
+  };
+
+  const navigationOnramp = () => {
+    route.push("/");
+  };
+
+  const navigationOfframp = () => {
+    route.push("/processing/offramp");
   };
 
   return (
@@ -22,8 +43,18 @@ const NavBar = () => {
       </div>
 
       <div className={styles.navOptionsMain}>
-        <p className={styles.active}>Onramp</p>
-        <p>Offramp</p>
+        <p
+          className={`${path !== "/" ? "" : styles.active}`}
+          onClick={navigationOnramp}
+        >
+          Onramp
+        </p>
+        <p
+          className={`${path !== "/" ? styles.active : ""}`}
+          onClick={navigationOfframp}
+        >
+          Offramp
+        </p>
 
         <div className={styles.navOptions} onClick={showMenuItems}>
           <span className={styles.navOptions_ArgentLogo}>
@@ -46,52 +77,23 @@ const NavBar = () => {
         </div>
       </div>
 
-      <div className={`${styles.navbar_menuItems} ${showItems ? styles.display :'' }`}>
+      <div
+        className={`${styles.navbar_menuItems} ${
+          showItems ? styles.display : ""
+        }`}
+      >
         <ul className={styles.navbar_menuItems_content}>
-          <li className={styles.active_navbar_menuItems}>
+          <li
+            className={styles.active_navbar_menuItems}
+            onClick={connectFromNav}
+          >
             <Image
               src={"/StarkNetLogo.png"}
               width={24}
               height={24}
               alt="StarkNetLogo"
             ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
-          </li>
-          <li>
-            <Image
-              src={"/StarkNetLogo.png"}
-              width={24}
-              height={24}
-              alt="StarkNetLogo"
-            ></Image>
-            <span>StarkNet Wallet</span>
+            <span>{address ? address?.substring(0, 6) : "Connect Wallet"}</span>
           </li>
         </ul>
       </div>
