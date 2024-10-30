@@ -4,6 +4,12 @@ import { Contract, Provider, Account } from "starknet";
 import { abi } from "../assets/abi.json";
 import { erc20abi } from "../assets/erc20abi.json";
 
+// Accessing priavte keys from .env in deployed environment
+const PRIVATE_KEY_EXAMPLE = process.env.NEXT_PUBLIC_NAME_OF_VARIABLE;
+console.log("API Key:", PRIVATE_KEY_EXAMPLE);
+
+// make sure you prefix them with NEXT_PUBLIC_ if you need to expose them to the browser. Otherwise you can use the variable name without the prefix
+
 const PRIVATE_KEY = "0x819033027885bc1840b6d564b6e8f68c";
 const ACCOUNT_ADDRESS =
   "0x77a6390ab3dc3045df373b93bf8b93899c3ad5111da9b66c54b62ddc98e7d4";
@@ -19,8 +25,15 @@ const ERC20_ABI = erc20abi;
 // const contract = new Contract(abi, CONTRACT_ADDRESS, account);
 
 async function connectWallet() {
-  return await connect({ webWalletUrl: "https://web.argent.xyz" });
+  return await connect({
+    webWalletUrl: "https://web.argent.xyz",
+    argentMobileOptions: {
+      dappName: "Kiboko Oframp",
+      url: "https://web.argent.xyz"
+    },
+  });
 }
+
 
 async function disconnectWallet() {
   await disconnect();

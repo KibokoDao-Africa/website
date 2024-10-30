@@ -6,7 +6,7 @@ import { useAppContext } from "../../providers/AppProvider";
 import { usePathname, useRouter } from "next/navigation";
 
 const NavBar = () => {
-  const [showItems, setshowItems] = useState(true);
+  const [showItems, setshowItems] = useState<boolean>(true);
   const path = usePathname();
   const route = useRouter();
 

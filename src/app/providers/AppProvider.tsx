@@ -38,25 +38,41 @@ const AppProvider = ({ children }: IAppProvider) => {
   const [account, setAccount] = useState<null | any>();
   const [address, setAddress] = useState<null | any>("");
 
-  const connectWallet = async () => {
-    const connection = await connect({
-      webWalletUrl: "https://web.argent.xyz",
+function hasSelectedAddress(wallet: any): wallet is { selectedAddress: string } {
+  return wallet && typeof wallet.selectedAddress === "string";
+}
+
+const connectWallet = async () => {
+  const connection = await connect({
+    webWalletUrl: "https://web.argent.xyz",
+    argentMobileOptions: {
       dappName: "Kiboko Oframp",
-    });
+      url: "https://kibokodao.com",
+    },
+  });
 
-    console.log("connection details")
-    console.log(connection)
-
-     // Check if wallet or connection details exist
-  if (connection && connection.wallet && connection.connector && connection?.account) {
+  console.log("Connection details:", connection); 
+  if (connection && typeof connection === "object") {
     setConnection(connection);
-    setAccount(connection.account);
-    setAddress(connection.wallet.selectedAddress); // This may vary based on `starknetkit`
+
+    const account = "account" in connection ? connection.account : null;
+
+    const walletAddress = hasSelectedAddress(connection.wallet) 
+      ? connection.wallet.selectedAddress 
+      : ""; 
+
+    setAccount(account);
+    setAddress(walletAddress);
+
+    console.log("Account:", account, "Wallet Address:", walletAddress);
   } else {
     console.log("No wallet connected");
+    setConnection(null);
+    setAccount(null);
+    setAddress("");
   }
-
-  };
+};
+  
 
   const disconnectWallet = async () => {
     await disconnect({ clearLastWallet: true });
