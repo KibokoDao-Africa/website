@@ -30,3 +30,14 @@
   width: 20px;
   height: 20px;
 }
+
+
+@media (max-width: 430px) {
+  .main {
+    height: auto;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+  }
+}
