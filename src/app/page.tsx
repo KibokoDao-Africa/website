@@ -1,7 +1,35 @@
+"use client"
 import Image from "next/image";
 import styles from "./page.module.css";
+import { useAppContext } from "./providers/AppProvider";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Home() {
+
+  const [connectionOnRamp, setConnectionOnRamp] = useState<boolean>(false)
+
+  const { handleConnetWalletBtnClick, connection } = useAppContext();
+
+  const route = useRouter();
+  const path = usePathname()
+  
+  const connectFromNav = () => {
+    handleConnetWalletBtnClick();
+    setTimeout(() => {
+      setConnectionOnRamp(true)
+    }, 3000);
+  };
+
+  useEffect(() => {
+    if (connection && connectionOnRamp ) {
+      route.push("/processing/offramp");
+      setConnectionOnRamp(false)
+    } else {
+      return 
+    }
+  }, [connection, connectionOnRamp]);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -59,7 +87,8 @@ export default function Home() {
                 />
               </div>
             
-              <button type="submit" className={styles.submitButton}>
+            
+            <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
               Connect Wallet
               </button>
             </form>

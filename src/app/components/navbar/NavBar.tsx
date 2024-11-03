@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./navbar.module.css";
 import Image from "next/image";
 import { useAppContext } from "../../providers/AppProvider";
@@ -7,12 +7,17 @@ import { usePathname, useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [showItems, setshowItems] = useState<boolean>(true);
+  const [walletConnect, setWalletConnect] = useState<string>("Connect Your Wallet");
   const path = usePathname();
   const route = useRouter();
 
   console.log(path);
 
-  const { handleConnetWalletBtnClick, address } = useAppContext();
+  const { handleConnetWalletBtnClick, address, connection } = useAppContext();
+
+  console.log("Connection Log")
+  console.log(connection)
+  console.log("Connection Log")
 
   const connectFromNav = () => {
     handleConnetWalletBtnClick();
@@ -30,6 +35,15 @@ const NavBar = () => {
   const navigationOfframp = () => {
     route.push("/processing/offramp");
   };
+
+  useEffect(() => {
+    if (connection) {
+      setWalletConnect("Wallet Connected");
+    } else {
+      setWalletConnect("Connect Your Wallet");
+    }
+  }, [connection]);
+  
 
   return (
     <div className={styles.container}>
@@ -65,7 +79,7 @@ const NavBar = () => {
               fill
             ></Image>
           </span>
-          <p>Wallet Connected</p>
+          <p>{walletConnect}</p>
           <span className={styles.navOptions_arrow_drop_down}>
             <Image
               src={"/arrowdropdown.png"}

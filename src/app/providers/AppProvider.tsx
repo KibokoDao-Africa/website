@@ -101,6 +101,10 @@ const connectWallet = async () => {
     }
   };
 
+  console.log("account")
+  console.log(account)
+  console.log("account")
+
   const handleConnetWalletBtnClick = () => {
     if (!account) {
       connectWallet();
