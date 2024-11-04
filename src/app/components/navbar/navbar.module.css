@@ -99,9 +99,14 @@
   padding: 10px;
 }
 
-.active_navbar_menuItems {
+.active_navbar_menuItems, .active_navbar_menuItems_diconnect {
   background-color: var(--activeLinkIndicator);
   cursor: pointer;
+}
+
+.active_navbar_menuItems_diconnect{
+  color: black;
+  background-color: white;
 }
 
 .display {

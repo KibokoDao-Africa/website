@@ -13,7 +13,7 @@ const NavBar = () => {
 
   console.log(path);
 
-  const { handleConnetWalletBtnClick, address, connection } = useAppContext();
+  const { handleConnetWalletBtnClick, address, connection, disconnectWallet  } = useAppContext();
 
   console.log("Connection Log")
   console.log(connection)
@@ -107,7 +107,19 @@ const NavBar = () => {
               height={24}
               alt="StarkNetLogo"
             ></Image>
-            <span>{address ? address?.substring(0, 6) : "Connect Wallet"}</span>
+            <span>{address ? address?.substring(0, 6) : walletConnect}</span>
+          </li>
+          <li
+            className={styles.active_navbar_menuItems_diconnect}
+            onClick={disconnectWallet}
+          >
+            <Image
+              src={"/disconnect.png"}
+              width={24}
+              height={24}
+              alt="StarkNetLogo"
+            ></Image>
+            <span>{address ? address?.substring(0, 6) : "Disconnect Wallet"}</span>
           </li>
         </ul>
       </div>
