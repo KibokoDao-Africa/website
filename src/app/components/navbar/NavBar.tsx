@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./navbar.module.css";
 import Image from "next/image";
 import { useAppContext } from "../../providers/AppProvider";
@@ -7,12 +7,17 @@ import { usePathname, useRouter } from "next/navigation";
 
 const NavBar = () => {
   const [showItems, setshowItems] = useState<boolean>(true);
+  const [walletConnect, setWalletConnect] = useState<string>("Connect Your Wallet");
   const path = usePathname();
   const route = useRouter();
 
   console.log(path);
 
-  const { handleConnetWalletBtnClick, address } = useAppContext();
+  const { handleConnetWalletBtnClick, address, connection, disconnectWallet  } = useAppContext();
+
+  console.log("Connection Log")
+  console.log(connection)
+  console.log("Connection Log")
 
   const connectFromNav = () => {
     handleConnetWalletBtnClick();
@@ -30,6 +35,15 @@ const NavBar = () => {
   const navigationOfframp = () => {
     route.push("/processing/offramp");
   };
+
+  useEffect(() => {
+    if (connection) {
+      setWalletConnect("Wallet Connected");
+    } else {
+      setWalletConnect("Connect Your Wallet");
+    }
+  }, [connection]);
+  
 
   return (
     <div className={styles.container}>
@@ -65,7 +79,7 @@ const NavBar = () => {
               fill
             ></Image>
           </span>
-          <p>Wallet Connected</p>
+          <p>{walletConnect}</p>
           <span className={styles.navOptions_arrow_drop_down}>
             <Image
               src={"/arrowdropdown.png"}
@@ -93,7 +107,19 @@ const NavBar = () => {
               height={24}
               alt="StarkNetLogo"
             ></Image>
-            <span>{address ? address?.substring(0, 6) : "Connect Wallet"}</span>
+            <span>{address ? address?.substring(0, 6) : walletConnect}</span>
+          </li>
+          <li
+            className={styles.active_navbar_menuItems_diconnect}
+            onClick={disconnectWallet}
+          >
+            <Image
+              src={"/disconnect.png"}
+              width={24}
+              height={24}
+              alt="StarkNetLogo"
+            ></Image>
+            <span>{address ? address?.substring(0, 6) : "Disconnect Wallet"}</span>
           </li>
         </ul>
       </div>

@@ -19,6 +19,7 @@ const initialData = {
   address: null as any,
   connection: null as any,
   handleConnetWalletBtnClick: null as any,
+  disconnectWallet: null as any,
 };
 
 export const AppContext = createContext(initialData);
@@ -101,6 +102,10 @@ const connectWallet = async () => {
     }
   };
 
+  console.log("account")
+  console.log(account)
+  console.log("account")
+
   const handleConnetWalletBtnClick = () => {
     if (!account) {
       connectWallet();
@@ -116,8 +121,9 @@ const connectWallet = async () => {
       address,
       connection,
       handleConnetWalletBtnClick,
+      disconnectWallet
     }),
-    [account, contract, address, connection]
+    [account, contract, address, connection, ]
   );
 
   useEffect(() => {

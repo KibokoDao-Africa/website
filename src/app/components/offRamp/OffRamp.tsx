@@ -1,14 +1,17 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./offramp.module.css";
+import { useAppContext } from "../../providers/AppProvider";
+import { useRouter } from "next/navigation";
 import CryptoOfframpInfo from "../CryptoOfframpInfo";
-
-
 
 const OffRamp = () => {
   const [activeMethodNumber, setActiveMethodNumber] = useState(true);
   const [activeMethodPaybill, setActiveMethodPaybill] = useState(false);
   const [activeMethodTill, setActiveMethodTill] = useState(false);
+  const [connectionOffRamp, setConnectionOffRamp] = useState<boolean>(false)
+
+  const route = useRouter();
 
   const selectPaymentMethodNumber = () => {
     setActiveMethodNumber(true);
@@ -27,6 +30,23 @@ const OffRamp = () => {
     setActiveMethodPaybill(false);
     setActiveMethodTill(true);
   };
+
+  const { handleConnetWalletBtnClick, connection, disconnectWallet } = useAppContext();
+  const connectFromNav = () => {
+    handleConnetWalletBtnClick();
+    setConnectionOffRamp(true)
+  };
+
+  
+  useEffect(() => {
+    if (connection && connectionOffRamp ) {
+      route.push("/");
+      setConnectionOffRamp(false)
+    } else {
+      return 
+    }
+  }, [connection, connectionOffRamp]);
+
   return (
     <div className={styles.page}>
       <main className={styles.main}>
@@ -163,9 +183,12 @@ const OffRamp = () => {
                 />
               </div> */}
 
-              <button type="submit" className={styles.submitButton}>
+              {!connection ? <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
                 Connect Wallet
-              </button>
+              </button> :
+              <button type="reset" onClick={disconnectWallet}>
+                Diconnect Wallet
+              </button>}
             </form>
           </div>
         </div>
