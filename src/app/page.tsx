@@ -9,7 +9,7 @@ export default function Home() {
 
   const [connectionOnRamp, setConnectionOnRamp] = useState<boolean>(false)
 
-  const { handleConnetWalletBtnClick, connection } = useAppContext();
+  const { handleConnetWalletBtnClick, connection, disconnectWallet } = useAppContext();
 
   const route = useRouter();
   const path = usePathname()
@@ -88,9 +88,13 @@ export default function Home() {
               </div>
             
             
-            <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
+            {!connection ? <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
               Connect Wallet
-              </button>
+              </button>:
+              <button type="reset" onClick={disconnectWallet}>
+              Diconnect Wallet
+            </button>
+              }
             </form>
           </div>
         </div>

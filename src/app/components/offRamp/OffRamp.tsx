@@ -30,7 +30,7 @@ const OffRamp = () => {
     setActiveMethodTill(true);
   };
 
-  const { handleConnetWalletBtnClick, connection } = useAppContext();
+  const { handleConnetWalletBtnClick, connection, disconnectWallet } = useAppContext();
   const connectFromNav = () => {
     handleConnetWalletBtnClick();
     setConnectionOffRamp(true)
@@ -186,9 +186,12 @@ const OffRamp = () => {
                 />
               </div> */}
 
-              <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
+              {!connection ? <button onClick={connectFromNav} type="submit" className={styles.submitButton}>
                 Connect Wallet
-              </button>
+              </button> :
+              <button type="reset" onClick={disconnectWallet}>
+                Diconnect Wallet
+              </button>}
             </form>
           </div>
         </div>
