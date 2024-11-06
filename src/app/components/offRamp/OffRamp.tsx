@@ -31,9 +31,9 @@ const OffRamp = () => {
     setActiveMethodTill(true);
   };
 
-  const { handleConnetWalletBtnClick, connection, disconnectWallet } = useAppContext();
+  const { handleConnectWalletBtnClick, connection, disconnectWallet } = useAppContext();
   const connectFromNav = () => {
-    handleConnetWalletBtnClick();
+    handleConnectWalletBtnClick();
     setConnectionOffRamp(true)
   };
 
