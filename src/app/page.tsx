@@ -9,6 +9,32 @@ import CryptoOnrampInfo from "./components/CryptoOnrampInfo";
 import { getOnrampExchangeRateIn } from "kibokogetpricehook";
 import axios from "axios";
 
+const currencies = [
+  {
+    value: "USDC",
+    label: "USDC",
+  },
+  {
+    value: "BUSD",
+    label: "BUSD",
+  },
+  {
+    value: "STRK",
+    label: "STRK",
+  },
+];
+
+const networks = [
+  {
+    value: "Starknet",
+    label: "Starknet",
+  },
+  {
+    value: "Ethereum",
+    label: "Ethereum",
+  },
+];
+
 export default function Home() {
   const [connectionOnRamp, setConnectionOnRamp] = useState(false);
   const { handleConnectWalletBtnClick, connection, disconnectWallet } = useAppContext();
@@ -34,6 +60,8 @@ export default function Home() {
         setAmountToSend("Error fetching rate");
       });
   };
+
+  console.log(selectedToken)
 
   // Handle number of tokens change and update amount to send
   const handleNumberOfTokensChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -112,9 +140,10 @@ export default function Home() {
                     onChange={handleTokenChange}
                     required
                   >
-                    <option value="bitcoin">Bitcoin</option>
-                    <option value="ethereum">Ethereum</option>
-                    <option value="litecoin">Litecoin</option>
+                    {currencies.map((item:any, index) => (
+                      <option key={item.value} value={item.value}>{item.label}</option>
+                    )) }
+                  
                   </select>
                 </div>
                 <div className={styles.formGroup}>
