@@ -40,12 +40,13 @@ export default function Home() {
   const { handleConnectWalletBtnClick, connection, disconnectWallet } = useAppContext();
   const router = useRouter();
 
-  // State variables for form fields
+  // State variables for form fieldspOfframp
   const [selectedToken, setSelectedToken] = useState("USDC");
   const [numberOfTokens, setNumberOfTokens] = useState("");
   const [senderPhoneNumber, setSenderPhoneNumber] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
   const [walletAddress, setWalletAddress] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Handle token selection change
   const handleTokenChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -85,7 +86,8 @@ export default function Home() {
   };
 
   // Handle transaction submission
-  const handleTransactionSubmission = async () => {
+  const handleTransactionSubmission = async (e:React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault()
     if (senderPhoneNumber && amountToSend && selectedToken && numberOfTokens && walletAddress) {
       const requestData = {
         phoneNumber: senderPhoneNumber,
@@ -95,10 +97,19 @@ export default function Home() {
         walletAddress,
       };
 
+      setLoading(true)
+
+      console.log(requestData)
+
       try {
         const response = await axios.post("https://offrampsdk-production.up.railway.app/api/onramptransaction/", requestData);
         console.log("Conversion API Response:", response.data);
+        setLoading(false)
+        setTimeout(() => {
+          setConnectionOnRamp(true);
+        }, 3000);
       } catch (error) {
+        setLoading(false)
         console.error("Error making API request:", error);
       }
     } else {
@@ -108,9 +119,7 @@ export default function Home() {
 
   const connectFromNav = async () => {
     handleConnectWalletBtnClick();
-    setTimeout(() => {
-      setConnectionOnRamp(true);
-    }, 3000);
+   
   };
 
   useEffect(() => {
@@ -209,8 +218,8 @@ export default function Home() {
                   Connect Wallet
                 </button>
               ) : (
-                <button type="button" onClick={disconnectWallet} className={styles.submitButton}>
-                  Disconnect Wallet
+                <button type="submit" onClick={handleTransactionSubmission} className={styles.submitButton}>
+                  { loading ? "Submitting..." : "Submit"}
                 </button>
               )}
             </form>
