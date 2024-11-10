@@ -4,14 +4,53 @@ import styles from "./offramp.module.css";
 import { useAppContext } from "../../providers/AppProvider";
 import { useRouter } from "next/navigation";
 import CryptoOfframpInfo from "../CryptoOfframpInfo";
+import { currencies } from "../../page";
+import { getOffRampExchangeRateIn } from "kibokogetpricehook";
 
 const OffRamp = () => {
   const [activeMethodNumber, setActiveMethodNumber] = useState(true);
   const [activeMethodPaybill, setActiveMethodPaybill] = useState(false);
   const [activeMethodTill, setActiveMethodTill] = useState(false);
   const [connectionOffRamp, setConnectionOffRamp] = useState<boolean>(false)
+  const [selectedToken, setSelectedToken] = useState("USDC");
+  const [numberOfTokens, setNumberOfTokens] = useState("");
+  const [recipientPhoneNumber, setRecipientPhoneNumber] = useState("");
+  const [amountToReceive, setamountToReceive] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
 
   const route = useRouter();
+
+  // Handle token selection change
+  const handleTokenChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const token = event.target.value;
+    setSelectedToken(token);
+    getOffRampExchangeRateIn(token, numberOfTokens)
+      .then((amountInKesReceived) => {
+        setamountToReceive(amountInKesReceived?.toString() || "");
+      })
+      .catch((error) => {
+        console.error("Error fetching exchange rate:", error);
+        setamountToReceive("Error fetching rate");
+      });
+  };
+
+  console.log(selectedToken)
+
+   const handleNumberOfTokensChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const tokens = event.target.value;
+    setNumberOfTokens(tokens);
+    try {
+      const amountInKesReceived = await getOffRampExchangeRateIn(selectedToken, tokens);
+      setamountToReceive(String(amountInKesReceived || ""));
+    } catch (error) {
+      console.error("Error fetching exchange rate:", error);
+      setamountToReceive("Error fetching rate");
+    }
+  };
+
+  const handlePhoneNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRecipientPhoneNumber(event.target.value);
+  };
 
   const selectPaymentMethodNumber = () => {
     setActiveMethodNumber(true);
@@ -93,11 +132,13 @@ const OffRamp = () => {
                     className={styles.select}
                     id="crypto"
                     name="crypto"
+                    value={selectedToken}
+                    onChange={handleTokenChange}
                     required
                   >
-                    <option value="bitcoin">Bitcoin</option>
-                    <option value="ethereum">Ethereum</option>
-                    <option value="litecoin">Litecoin</option>
+                     {currencies.map((item:any, index) => (
+                      <option key={item.value} value={item.value}>{item.label}</option>
+                    )) }
                   </select>
                 </div>
                 <div className={styles.formGroup}>
@@ -106,9 +147,12 @@ const OffRamp = () => {
                   </label>
                   <input
                     className={styles.input}
-                    type="number"
-                    id="email"
-                    name="email"
+                    type="text"
+                    id="numberOfTokens"
+                    name="numberOfTokens"
+                    value={numberOfTokens}
+                    onChange={handleNumberOfTokensChange}
+                    placeholder="Enter number of tokens"
                     required
                   />
                 </div>
@@ -122,12 +166,15 @@ const OffRamp = () => {
                         Recipient’s Phone Number:
                       </label>
                       <input
-                        className={styles.input}
-                        type="number"
-                        id="phone"
-                        name="phone"
-                        required
-                      />
+                    className={styles.input}
+                    type="tel"
+                    id="recipientPhoneNumber"
+                    name="recipientPhoneNumber"
+                    value={recipientPhoneNumber}
+                    onChange={handlePhoneNumberChange}
+                    placeholder="+254 123 456789"
+                    required
+                  />
                     </div>
                   </div>
                 ) : activeMethodPaybill ? (
@@ -163,10 +210,12 @@ const OffRamp = () => {
                   </label>
                   <input
                     className={styles.input}
-                    type="number"
-                    id="email"
-                    name="email"
-                    required
+                    type="text"
+                    id="amountToReceive"
+                    name="amountToReceive"
+                    value={amountToReceive}
+                    placeholder="Amount to receive"
+                    readOnly
                   />
                 </div>
               </div>

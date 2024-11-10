@@ -9,7 +9,7 @@ import CryptoOnrampInfo from "./components/CryptoOnrampInfo";
 import { getOnrampExchangeRateIn } from "kibokogetpricehook";
 import axios from "axios";
 
-const currencies = [
+export const currencies = [
   {
     value: "USDC",
     label: "USDC",
@@ -24,7 +24,7 @@ const currencies = [
   },
 ];
 
-const networks = [
+export const networks = [
   {
     value: "Starknet",
     label: "Starknet",
@@ -41,7 +41,7 @@ export default function Home() {
   const router = useRouter();
 
   // State variables for form fields
-  const [selectedToken, setSelectedToken] = useState("bitcoin");
+  const [selectedToken, setSelectedToken] = useState("USDC");
   const [numberOfTokens, setNumberOfTokens] = useState("");
   const [senderPhoneNumber, setSenderPhoneNumber] = useState("");
   const [amountToSend, setAmountToSend] = useState("");
@@ -183,7 +183,7 @@ export default function Home() {
                     id="amountToSend"
                     name="amountToSend"
                     value={amountToSend}
-                    placeholder="Amount to receive"
+                    placeholder="Amount to send"
                     readOnly
                   />
                 </div>
