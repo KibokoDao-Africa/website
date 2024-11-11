@@ -14,11 +14,11 @@ const OffRamp = () => {
   const [activeMethodTill, setActiveMethodTill] = useState(false);
   const [connectionOffRamp, setConnectionOffRamp] = useState<boolean>(false);
   const [selectedToken, setSelectedToken] = useState("USDC");
-  const [numberOfTokens, setNumberOfTokens] = useState("");
+  const [numberOfTokens, setNumberOfTokens] = useState<number>(0);
   const [recipientPaybill, setRecipientPaybill] = useState("");
   const [recipientTillNumber, setRecipientTillNumber] = useState("");
   const [recipientPhoneNumber, setRecipientPhoneNumber] = useState("");
-  const [amountToReceive, setamountToReceive] = useState("");
+  const [amountToReceive, setamountToReceive] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [requiredFields, setRequiredFields] = useState<boolean>(false);
@@ -31,11 +31,11 @@ const OffRamp = () => {
     setSelectedToken(token);
     getOffRampExchangeRateIn(token, numberOfTokens)
       .then((amountInKesReceived) => {
-        setamountToReceive(amountInKesReceived?.toString() || "");
+        setamountToReceive(amountInKesReceived || 0);
       })
       .catch((error) => {
         console.error("Error fetching exchange rate:", error);
-        setamountToReceive("Error fetching rate");
+        setamountToReceive(0);
       });
   };
 
@@ -45,16 +45,16 @@ const OffRamp = () => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const tokens = event.target.value;
-    setNumberOfTokens(tokens);
+    setNumberOfTokens(parseInt(tokens));
     try {
       const amountInKesReceived = await getOffRampExchangeRateIn(
         selectedToken,
         tokens
       );
-      setamountToReceive(String(amountInKesReceived || ""));
+      setamountToReceive(amountInKesReceived || 0);
     } catch (error) {
       console.error("Error fetching exchange rate:", error);
-      setamountToReceive("Error fetching rate");
+      setamountToReceive(0);
     }
   };
 

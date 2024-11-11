@@ -42,9 +42,9 @@ export default function Home() {
 
   // State variables for form fieldspOfframp
   const [selectedToken, setSelectedToken] = useState("USDC");
-  const [numberOfTokens, setNumberOfTokens] = useState("");
+  const [numberOfTokens, setNumberOfTokens] = useState<number>(0);
   const [senderPhoneNumber, setSenderPhoneNumber] = useState("");
-  const [amountToSend, setAmountToSend] = useState("");
+  const [amountToSend, setAmountToSend] = useState<number>(0);
   const [walletAddress, setWalletAddress] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -54,11 +54,11 @@ export default function Home() {
     setSelectedToken(token);
     getOnrampExchangeRateIn(token, numberOfTokens)
       .then((amountInKesReceived) => {
-        setAmountToSend(amountInKesReceived?.toString() || "");
+        setAmountToSend(amountInKesReceived || 0);
       })
       .catch((error) => {
         console.error("Error fetching exchange rate:", error);
-        setAmountToSend("Error fetching rate");
+        setAmountToSend(0);
       });
   };
 
@@ -67,13 +67,13 @@ export default function Home() {
   // Handle number of tokens change and update amount to send
   const handleNumberOfTokensChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const tokens = event.target.value;
-    setNumberOfTokens(tokens);
+    setNumberOfTokens(parseInt(tokens));
     try {
       const amountInKesReceived = await getOnrampExchangeRateIn(selectedToken, tokens);
-      setAmountToSend(String(amountInKesReceived || ""));
+      setAmountToSend(amountInKesReceived || 0);
     } catch (error) {
       console.error("Error fetching exchange rate:", error);
-      setAmountToSend("Error fetching rate");
+      setAmountToSend(0);
     }
   };
 
