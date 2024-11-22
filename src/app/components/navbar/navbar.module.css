@@ -1,3 +1,4 @@
+/* styles/navbar.module.css */
 .container {
   display: flex;
   align-items: center;
@@ -11,6 +12,7 @@
 .logo {
   position: relative;
   width: 213px;
+
   height: 60px;
   margin-top: 20px;
 }
@@ -143,3 +145,4 @@
     flex-direction: column;
   }
 }
+

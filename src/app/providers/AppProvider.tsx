@@ -18,7 +18,7 @@ const initialData = {
   account: null as any,
   address: null as any,
   connection: null as any,
-  handleConnetWalletBtnClick: null as any,
+  handleConnectWalletBtnClick: null as any,
   disconnectWallet: null as any,
 };
 
@@ -106,7 +106,7 @@ const connectWallet = async () => {
   console.log(account)
   console.log("account")
 
-  const handleConnetWalletBtnClick = () => {
+  const handleConnectWalletBtnClick = () => {
     if (!account) {
       connectWallet();
     } else {
@@ -120,7 +120,7 @@ const connectWallet = async () => {
       account,
       address,
       connection,
-      handleConnetWalletBtnClick,
+      handleConnectWalletBtnClick,
       disconnectWallet
     }),
     [account, contract, address, connection, ]

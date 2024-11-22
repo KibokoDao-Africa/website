@@ -13,14 +13,14 @@ const NavBar = () => {
 
   console.log(path);
 
-  const { handleConnetWalletBtnClick, address, connection, disconnectWallet  } = useAppContext();
+  const { handleConnectWalletBtnClick, address, connection, disconnectWallet  } = useAppContext();
 
   console.log("Connection Log")
   console.log(connection)
   console.log("Connection Log")
 
   const connectFromNav = () => {
-    handleConnetWalletBtnClick();
+    handleConnectWalletBtnClick();
     setshowItems(!showItems);
   };
 
