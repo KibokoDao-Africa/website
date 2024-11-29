@@ -8,32 +8,7 @@ import { useRouter } from "next/navigation";
 import CryptoOnrampInfo from "./components/CryptoOnrampInfo";
 import { getOnrampExchangeRateIn } from "kibokogetpricehook";
 import axios from "axios";
-
-export const currencies = [
-  {
-    value: "USDC",
-    label: "USDC",
-  },
-  {
-    value: "BUSD",
-    label: "BUSD",
-  },
-  {
-    value: "STRK",
-    label: "STRK",
-  },
-];
-
-export const networks = [
-  {
-    value: "Starknet",
-    label: "Starknet",
-  },
-  {
-    value: "Ethereum",
-    label: "Ethereum",
-  },
-];
+import { currencies } from "./shared/SharedData";
 
 export default function Home() {
   const [connectionOnRamp, setConnectionOnRamp] = useState(false);
@@ -149,7 +124,7 @@ export default function Home() {
                     onChange={handleTokenChange}
                     required
                   >
-                    {currencies.map((item:any, index) => (
+                    {currencies?.map((item:any, index) => (
                       <option key={item.value} value={item.value}>{item.label}</option>
                     )) }
                   

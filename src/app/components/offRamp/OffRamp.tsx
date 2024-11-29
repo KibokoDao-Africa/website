@@ -4,9 +4,9 @@ import styles from "./offramp.module.css";
 import { useAppContext } from "../../providers/AppProvider";
 import { useRouter } from "next/navigation";
 import CryptoOfframpInfo from "../CryptoOfframpInfo";
-import { currencies } from "../../page";
 import { getOffRampExchangeRateIn } from "kibokogetpricehook";
 import axios from "axios";
+import { currencies } from "../../shared/SharedData";
 
 const OffRamp = () => {
   const [activeMethodNumber, setActiveMethodNumber] = useState(true);
@@ -229,7 +229,7 @@ const OffRamp = () => {
                     onChange={handleTokenChange}
                     required
                   >
-                    {currencies.map((item: any, index) => (
+                    {currencies?.map((item: any, index) => (
                       <option key={item.value} value={item.value}>
                         {item.label}
                       </option>
